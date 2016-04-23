@@ -59,23 +59,32 @@ public class Utility
     */
     public static String kaliString(String satu, String dua)
     {
-        String temp[] = new String[7];
-        String a = hexToBin(satu), b = hexToBin(dua);
-        String baru = a, hasilTemp = a;
-        for(int i = 6; i >= 0; i--) {
-            if(hasilTemp.charAt(0) == '0') {
-                temp[i] = shift(hasilTemp);           
-            } else {
-                temp[i] = xorBesar(shift(hasilTemp), "00011011");
-            }   
-            hasilTemp = temp[i];
-        }
-        for(int j = 6; j >= 0; j--) {
-            if(b.charAt(j) == '1') {
-                baru = xorBesar(baru, temp[j]);
-            } 
-        }
-        return Utility.binToHexAkhir(baru);
+        if(dua.equals("00")) {
+            return Utility.hexToBin(dua);
+        } else {
+            String temp[] = new String[8];
+            String a = hexToBin(satu), b = hexToBin(dua);
+            String hasilTemp = a;
+            for(int i = 7; i >= 0; i--) {
+                if(i == 7) {
+                    temp[i] = a;
+                } else {
+                    if(hasilTemp.charAt(0) == '0') {
+                        temp[i] = shift(hasilTemp);           
+                    } else {
+                        temp[i] = xorBesar(shift(hasilTemp), "00011011");
+                    }  
+                } 
+                hasilTemp = temp[i];
+            }
+            String baru = "00000000";
+            for(int j = 7; j >= 0; j--) {
+                if(b.charAt(j) == '1') {
+                    baru = xorBesar(baru, temp[j]);
+                } 
+            }
+            return baru;
+        } 
     }
     
     /*
