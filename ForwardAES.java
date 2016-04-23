@@ -87,10 +87,11 @@ public class ForwardAES
     public static String[][] mixColumns(String[][] masukan1, String[][] masukan2)
     {
         String[][] baru = new String[4][4];
+        String temp = "";
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
-                String temp = "00000000";
-                for(int k = 0; k < 4; k++) {
+                temp = Utility.kaliString(masukan1[i][0], masukan2[0][j]);
+                for(int k = 1; k < 4; k++) {
                     temp = Utility.xorBesar(temp, Utility.kaliString(masukan1[i][k], masukan2[k][j]));
                 }
                 baru[i][j] = Utility.binToHexAkhir(temp);
@@ -118,19 +119,17 @@ public class ForwardAES
     */
     public static String enkripsi(String plain, String kunci)
     {
-        String baru = "";
         String[][] data = Utility.ubahKeArrayString(plain);
         String[][] key = Utility.ubahKeArrayString(kunci);
         data = addRoundKey(data,key);
-        data = subBytes(data);
-        data = shiftRows(data);
-        data = mixColumns(mix, data);
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < 4; j++) {
-                System.out.println(data[i][j]);
+        String[] daftarKunci = KeyExpansion.function(kunci);
+        for(int ronde = 0; ronde < 10; ronde++) {
+            if(ronde == 10) {
+                data = addRoundKey(shiftRows(subBytes(data)), Utility.ubahKeArrayString(daftarKunci[ronde]));
+            } else {
+                data = addRoundKey(mixColumns(mix, shiftRows(subBytes(data))), Utility.ubahKeArrayString(daftarKunci[ronde]));
             }
         }
-        
-        return baru;
+        return Utility.stringArrToString(data);
     }
 }
