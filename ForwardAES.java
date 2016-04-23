@@ -124,10 +124,14 @@ public class ForwardAES
         data = addRoundKey(data,key);
         String[] daftarKunci = KeyExpansion.function(kunci);
         for(int ronde = 0; ronde < 10; ronde++) {
-            if(ronde == 10) {
-                data = addRoundKey(shiftRows(subBytes(data)), Utility.ubahKeArrayString(daftarKunci[ronde]));
+            if(ronde == 9) {
+               data = shiftRows(subBytes(data));
+               data = addRoundKey(data, Utility.ubahKeArrayString(daftarKunci[ronde]));
             } else {
-                data = addRoundKey(mixColumns(mix, shiftRows(subBytes(data))), Utility.ubahKeArrayString(daftarKunci[ronde]));
+                data = subBytes(data);
+                data = shiftRows(data);
+                data = mixColumns(mix, data);
+                data = addRoundKey(data, Utility.ubahKeArrayString(daftarKunci[ronde]));
             }
         }
         return Utility.stringArrToString(data);
