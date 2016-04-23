@@ -1,7 +1,7 @@
 public class Utility 
 {
     /*
-        Mengubah String ke suatu Array String (dua bit pada string berpasangan)
+        Mengubah String ke suatu Array String Dua Dimensi(dua bit pada string berpasangan)
     */
     public static String[][] ubahKeArrayString(String teks)
     {
@@ -59,26 +59,23 @@ public class Utility
     */
     public static String kaliString(String satu, String dua)
     {
-        String temp[] = new String[8];
+        String temp[] = new String[7];
         String a = hexToBin(satu), b = hexToBin(dua);
         String baru = a, hasilTemp = a;
-        for(int i = 7; i >= 0; i--) {
-            if(i == 7) {
-                hasilTemp = temp[i] = a;
+        for(int i = 6; i >= 0; i--) {
+            if(hasilTemp.charAt(0) == '0') {
+                temp[i] = shift(hasilTemp);           
             } else {
-                if(hasilTemp.charAt(0) == '0') {
-                    hasilTemp = temp[i] = shift(hasilTemp);
-                } else {
-                    hasilTemp = temp[i] = xorBesar(shift(hasilTemp), "00011011");
-                }
-            }
+                temp[i] = xorBesar(shift(hasilTemp), "00011011");
+            }   
+            hasilTemp = temp[i];
         }
-        for(int j = 7; j >= 0; j--) {
+        for(int j = 6; j >= 0; j--) {
             if(b.charAt(j) == '1') {
                 baru = xorBesar(baru, temp[j]);
             } 
         }
-        return baru;
+        return Utility.binToHexAkhir(baru);
     }
     
     /*
@@ -122,7 +119,7 @@ public class Utility
             small = konversi[13];
         } else if(hex == 14) {
             small = konversi[14];
-        } else {
+        } else if(hex == 15){
             small = konversi[15];
         } 
         return small;
@@ -194,7 +191,7 @@ public class Utility
                 baru += "D";
             } else if(bin[i] == '1' && bin[i + 1] == '1' && bin[i + 2] == '1' && bin[i + 3] == '0') {
                 baru += "E";
-            } else {
+            } else if(bin[i] == '1' && bin[i + 1] == '1' && bin[i + 2] == '1' && bin[i + 3] == '1'){
                 baru += "F";
             } 
             i += 3;
@@ -210,6 +207,35 @@ public class Utility
         String baru = "";
         for(int i = 0; i < satu.length(); i++) {
             baru += (satu.charAt(i) ^ dua.charAt(i)) + "";
+        }
+        return baru;
+    }
+    
+    /*
+        Menkonversi dari Array of String Dua Dimensi ke String
+    */
+    public static String stringArrToString(String[][] arr)
+    {
+        String baru = "";
+        for(int i = 0; i < 4; i++) {
+            for(int j = 0; j < 4; j++) {
+                baru += arr[j][i];
+            }
+        }
+        return baru;
+    }
+    
+    /*
+        Mengubah String ke suatu Array String Satu Dimensi(dua bit pada string berpasangan)
+    */
+    public static String[] ubahKeArrayStringSatu(String teks)
+    {
+        String[] baru = new String[4];
+        int k = 0;
+        for(int j = 0; j < 4; j++) {
+            baru[j] = teks.charAt(k) + "";
+            baru[j] += teks.charAt(k + 1) + "";
+            k += 2;  
         }
         return baru;
     }
