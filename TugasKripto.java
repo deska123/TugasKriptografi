@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class TugasKripto 
 {
-
     public static void main(String[] args) 
     {
         Scanner in = new Scanner(System.in);
@@ -15,6 +14,6 @@ public class TugasKripto
             System.out.println("Hasilnya : " + ForwardAES.enkripsi(plain, kunci));
         } else {
             System.out.println("Belum tersedia");
-        }
+        } 
     }  
 }
