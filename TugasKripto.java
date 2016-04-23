@@ -13,7 +13,11 @@ public class TugasKripto
             String kunci = in.next().trim().toUpperCase();
             System.out.println("Hasilnya : " + ForwardAES.enkripsi(plain, kunci));
         } else {
-            System.out.println("Belum tersedia");
+            System.out.print("Masukkan data (hex) yang ingin Anda dekrip : ");
+            String cipher = in.next().trim().toUpperCase();
+            System.out.print("Masukkan kunci (sebanyak 128-bit) : ");
+            String kunci = in.next().trim().toUpperCase();
+            System.out.println("Hasilnya : " + BackwardAES.dekripsi(cipher, kunci));
         } 
     }  
 }
