@@ -18,3 +18,9 @@ Nomor Kelompok : 9, Kelas : CIS - B
 
 * File BackwardXTS_AES.java berisikan method/fungsi utama menjalankan dekripsi XTS-AES
 
+##### Cara Penggunaan
+1. Buka command line pada perangkat Anda
+2. Untuk mengkompilasi seluruh file .java di dalam folder ini, ketikkan : javac *.java
+3. Untuk menjalankannya, ketikkan : java TugasKripto
+
+
