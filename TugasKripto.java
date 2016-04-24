@@ -4,7 +4,7 @@
 // From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
 // www.BruceEckel.com. See copyright notice in CopyRight.txt.
 
-import java.math.BigInteger;
+import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,6 +23,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 
 //import org.apache.commons.codec.binary.Base64;
 
@@ -35,6 +36,8 @@ public class TugasKripto extends JFrame {
   
   public String initialKey, initialPlain, initialCipher;
   
+  private static PrintWriter writer;
+
   final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
   public TugasKripto() {
@@ -91,10 +94,6 @@ public class TugasKripto extends JFrame {
         dirPlain.setText(c.getCurrentDirectory().toString());
 		filePlain = c.getSelectedFile();
       }
-      if (rVal == JFileChooser.CANCEL_OPTION) {
-        filenamePlain.setText("You pressed cancel");
-        dirPlain.setText("");
-      }
     }
   }
   class KeyGet implements ActionListener {
@@ -107,10 +106,6 @@ public class TugasKripto extends JFrame {
         dirKey.setText(c.getCurrentDirectory().toString());
 		fileKey = c.getSelectedFile();
       }
-      if (rVal == JFileChooser.CANCEL_OPTION) {
-        filenameKey.setText("You pressed cancel");
-        dirKey.setText("");
-      }
     }
   }
   
@@ -120,10 +115,12 @@ public class TugasKripto extends JFrame {
 		if(filePlain==null){
 			filenamePlain.setText("Isi plaintext terlebih dahulu");
 			dirPlain.setText("");
+			JOptionPane.showMessageDialog(null, "Isi plaintext terlebih dahulu!");
 		}
 		if(fileKey==null){
 			filenameKey.setText("Isi key terlebih dahulu");
 			dirKey.setText("");
+			JOptionPane.showMessageDialog(null, "Isi key terlebih dahulu!");
 		}
 		
 		//Bila sudah diisi, menjalankan untuk mengubah file menjadi hex
@@ -142,15 +139,20 @@ public class TugasKripto extends JFrame {
 		if(filePlain==null){
 			filenamePlain.setText("Isi plaintext terlebih dahulu");
 			dirPlain.setText("");
+			JOptionPane.showMessageDialog(null, "Isi plaintext terlebih dahulu!");
 		}
 		if(fileKey==null){
 			filenameKey.setText("Isi key terlebih dahulu");
+			JOptionPane.showMessageDialog(null, "Isi key terlebih dahulu!");
 			dirKey.setText("");
 		}
 				
 		//Bila sudah diisi, menjalankan untuk mengubah file menjadi hex
 		else{
 			try{
+				
+				writer = new PrintWriter("out_dekripsi.txt", "UTF-8");
+				
 				//Output dari hasil enkrip akan masuk ke file, isi file tersebut adalah hex, tinggal langsung baca isi dari file 
 				Scanner inCipher = new Scanner(filePlain);
 				initialCipher = inCipher.nextLine();
@@ -160,7 +162,11 @@ public class TugasKripto extends JFrame {
 				initialKey = inKey.nextLine();
 				
 				//Mulai dekripsi
-				System.out.println("Hasil Dekripsi : " +BackwardXTS_AES.dekripsiSatuUnit(initialCipher,initialKey));
+				String result = BackwardXTS_AES.dekripsiSatuUnit(initialCipher,initialKey);
+				System.out.println("Hasil Dekripsi : " +result);
+				writer.println(result);
+				writer.close();
+				JOptionPane.showMessageDialog(null, "Dekripsi berhasil!");
 			}
 			catch(IOException ex){}
 		}
@@ -172,6 +178,9 @@ public class TugasKripto extends JFrame {
   }
   
   public void initialPlainAndKey() throws FileNotFoundException,IOException{
+		
+		writer = new PrintWriter("out_enkripsi.txt", "UTF-8");
+				
 		//Agar dapat menerima berbagai jenis file, pada plaintext ini, isinya diubah terlebih dahulu ke string dengan basis 16
 		//Jadi bila berbentuk teks, maka bentuk hexnya tidak akan selalu sama dengan isi filenya		
 		FileInputStream textPlain = new FileInputStream(filePlain);
@@ -192,7 +201,11 @@ public class TugasKripto extends JFrame {
 		initialKey = inKey.nextLine();
 		
 		//Mulai enkripsi
-		System.out.println("Hasil Enkripsi : " +ForwardXTS_AES.enkripsiSatuUnit(initialPlain,initialKey));
+		String result = ForwardXTS_AES.enkripsiSatuUnit(initialPlain,initialKey);
+		System.out.println("Hasil Enkripsi : " +result);
+		writer.println(result);
+		writer.close();
+		JOptionPane.showMessageDialog(null, "Enkripsi berhasil!");
   }
   
 
