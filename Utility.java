@@ -248,4 +248,54 @@ public class Utility
         }
         return baru;
     }
+    
+    /*
+        Fungsi Mengubah Biner menjadi Desimal
+    */
+    public static int binToDes(String bin)
+    {
+        int baru = 0, j = 0;
+        for(int i = bin.length() - 1; i >= 0; i--) {
+            if(bin.charAt(i) == '1') {
+                baru += (Math.pow(2, j));
+            }
+            j++;
+        }
+        return baru;
+    }
+    
+    /*
+        Fungsi Mengubah Desimal menjadi Biner
+    */
+    public static String desToBin(int des)
+    {
+        if(des == 1) {
+            return "00000001";
+        } else if(des == 0) {
+            return "00000000";
+        } else {
+            String bin = "";
+            int[] hasil = new int[8];
+            int temp = des, i = 0;
+            while(temp >= 2) {
+                hasil[i] = temp % 2;
+                temp = temp / 2;
+                if(temp == 1) { 
+                    i++;
+                    hasil[i] = temp;
+                    break;
+                }
+                i++;
+            }
+            if(i < 7) {
+                for(int j = i + 1; j < 8; j++) {
+                    hasil[j] = 0;
+                }
+            }
+            for(int k = 7; k >= 0; k--) {
+                bin += hasil[k] + "";
+            }
+            return bin;
+        } 
+    }
 }
