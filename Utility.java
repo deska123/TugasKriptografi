@@ -22,17 +22,17 @@ public class Utility
     */
     public static String hexSpesial(String spesial)
     {
-        if(spesial.equals("A")) {
+        if((spesial.equals("A")) || spesial.equals("a")) {
             spesial = "10";
-        } else if(spesial.equals("B")) {
+        } else if((spesial.equals("B")) || spesial.equals("b")) {
             spesial = "11";
-        } else if(spesial.equals("C")) {
+        } else if((spesial.equals("C")) || spesial.equals("c")) {
             spesial = "12";
-        } else if(spesial.equals("D")) {
+        } else if((spesial.equals("D")) || spesial.equals("d")) {
             spesial = "13";
-        } else if(spesial.equals("E")) {
+        } else if((spesial.equals("E")) || spesial.equals("e")) {
             spesial = "14";
-        } else if(spesial.equals("F")) {
+        } else if((spesial.equals("F")) || spesial.equals("f")) {
             spesial = "15";
         }
         return spesial;
@@ -142,17 +142,17 @@ public class Utility
         String bin = "";
         for(int i = 0; i < hex.length(); i++) {
             int in = 0;
-            if(hex.charAt(i) == 'A') {
+            if((hex.charAt(i) == 'A') || (hex.charAt(i) == 'a')){
                 in = 10;
-            } else if(hex.charAt(i) == 'B') {
+            } else if((hex.charAt(i) == 'B')  || (hex.charAt(i) == 'b')){
                 in = 11;
-            } else if(hex.charAt(i) == 'C') {
+            } else if((hex.charAt(i) == 'C') || (hex.charAt(i) == 'c')) {
                 in = 12;
-            } else if(hex.charAt(i) == 'D') {
+            } else if((hex.charAt(i) == 'D')  || (hex.charAt(i) == 'd')){
                 in = 13;
-            } else if(hex.charAt(i) == 'E') {
+            } else if((hex.charAt(i) == 'E') || (hex.charAt(i) == 'e')){
                 in = 14;
-            } else if(hex.charAt(i) == 'F') {
+            } else if((hex.charAt(i) == 'F')  || (hex.charAt(i) == 'f')){
                 in = 15;
             } else {
                 in = Integer.parseInt(hex.charAt(i) + "");
@@ -247,5 +247,55 @@ public class Utility
             k += 2;  
         }
         return baru;
+    }
+    
+    /*
+        Fungsi Mengubah Biner menjadi Desimal
+    */
+    public static int binToDes(String bin)
+    {
+        int baru = 0, j = 0;
+        for(int i = bin.length() - 1; i >= 0; i--) {
+            if(bin.charAt(i) == '1') {
+                baru += (Math.pow(2, j));
+            }
+            j++;
+        }
+        return baru;
+    }
+    
+    /*
+        Fungsi Mengubah Desimal menjadi Biner
+    */
+    public static String desToBin(int des)
+    {
+        if(des == 1) {
+            return "00000001";
+        } else if(des == 0) {
+            return "00000000";
+        } else {
+            String bin = "";
+            int[] hasil = new int[8];
+            int temp = des, i = 0;
+            while(temp >= 2) {
+                hasil[i] = temp % 2;
+                temp = temp / 2;
+                if(temp == 1) { 
+                    i++;
+                    hasil[i] = temp;
+                    break;
+                }
+                i++;
+            }
+            if(i < 7) {
+                for(int j = i + 1; j < 8; j++) {
+                    hasil[j] = 0;
+                }
+            }
+            for(int k = 7; k >= 0; k--) {
+                bin += hasil[k] + "";
+            }
+            return bin;
+        } 
     }
 }
