@@ -69,20 +69,16 @@ public class ForwardXTS_AES
         }
         String temp = ForwardAES.enkripsi(i, key2);
         String T = "";
+        int cin = 0, cout;
         for(int j = 0; j < temp.length(); j += 2) {
             int angka = Utility.binToDes(Utility.hexToBin(temp.charAt(j) + temp.charAt(j + 1) + ""));
-            int angkaTerakhir = Utility.binToDes(Utility.hexToBin(temp.charAt(i.length() - 2) + temp.charAt(i.length() - 1) + ""));
-            if(j == 0) {
-                int a = 2 * (angka % 128);
-                int b = (int) (135 * Math.floor(angkaTerakhir / 128));
-                T += Utility.binToHexAkhir(Utility.desToBin(a ^ b));
-            } else {
-                int angkaSebelum = Utility.binToDes(Utility.hexToBin(temp.charAt(j - 2) + temp.charAt(j - 1) + ""));
-                int a = 2 * (angka % 128);
-                int b = (int) Math.floor(angkaSebelum / 128);
-                T += Utility.binToHexAkhir(Utility.desToBin(a ^ b));
-            }
+            cout = (angka >> 7) & 1;
+            angka = ((angka << 1) + cin) & 255;
+            T += Utility.binToHexAkhir(Utility.desToBin(angka));
+            cin = cout;
         }
+        int temp3 = Utility.binToDes(Utility.hexToBin(T.charAt(0) + T.charAt(1) + "")) ^ 135;
+        T.replace(T.charAt(0) + T.charAt(1) + "", Integer.toHexString(temp3));
         String PP = Utility.binToHexAkhir(Utility.xorBesar(Utility.hexToBin(plainBlok), Utility.hexToBin(T)));
         String CC = ForwardAES.enkripsi(PP, key1);
         cipherBlok = Utility.binToHexAkhir(Utility.xorBesar(Utility.hexToBin(CC), Utility.hexToBin(T)));
