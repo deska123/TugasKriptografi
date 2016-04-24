@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class BackwardXTS_AES
 {
     /*
@@ -7,11 +5,7 @@ public class BackwardXTS_AES
     */
     public static String dekripsiSatuUnit(String cipherData, String kunci)
     {
-        Random ran = new Random();
-        String tweak = "", plainData = "";
-        for(int i = 0; i < 32; i++) {
-            tweak += ran.nextInt(10) + "";
-        }
+        String tweak = "00000000000000000000000000000000", plainData = "";
         int banyakBlok;
         if(cipherData.length() % 32 != 0) {
             banyakBlok = (cipherData.length() / 32) + 1;
@@ -48,8 +42,10 @@ public class BackwardXTS_AES
             String pP = cipherBlok[cipherBlok.length - 1] + cP;
             plainBlok[cipherBlok.length - 2] = dekripsiSatuBlok(tweak, pP, kunci);
             plainBlok[cipherBlok.length - 2] = cM;
-        } else {
+        } else if(banyakBlok > 1){
             plainBlok[cipherBlok.length - 2] = dekripsiSatuBlok(tweak, cipherBlok[cipherBlok.length - 2], kunci);
+            plainBlok[cipherBlok.length - 1] = dekripsiSatuBlok(tweak, cipherBlok[cipherBlok.length - 1], kunci);
+        } else {
             plainBlok[cipherBlok.length - 1] = dekripsiSatuBlok(tweak, cipherBlok[cipherBlok.length - 1], kunci);
         }
         for(int i = 0; i < plainBlok.length; i++) {
@@ -73,20 +69,16 @@ public class BackwardXTS_AES
         }
         String temp = ForwardAES.enkripsi(i, key2);
         String T = "";
-        for(int j = 0; j < i.length(); j += 2) {
+        int cin = 0, cout;
+        for(int j = 0; j < temp.length(); j += 2) {
             int angka = Utility.binToDes(Utility.hexToBin(temp.charAt(j) + temp.charAt(j + 1) + ""));
-            int angkaTerakhir = Utility.binToDes(Utility.hexToBin(temp.charAt(i.length() - 2) + temp.charAt(i.length() - 1) + ""));
-            if(j == 0) {
-                int a = 2 * (angka % 128);
-                int b = (int) (135 * Math.floor(angkaTerakhir / 128));
-                T += Utility.binToHexAkhir(Utility.desToBin(a ^ b));
-            } else {
-                int angkaSebelum = Utility.binToDes(Utility.hexToBin(temp.charAt(j - 2) + temp.charAt(j - 1) + ""));
-                int a = 2 * (angka % 128);
-                int b = (int) Math.floor(angkaSebelum / 128);
-                T += Utility.binToHexAkhir(Utility.desToBin(a ^ b));
-            }
+            cout = (angka >> 7) & 1;
+            angka = ((angka << 1) + cin) & 255;
+            T += Utility.binToHexAkhir(Utility.desToBin(angka));
+            cin = cout;
         }
+        int temp3 = Utility.binToDes(Utility.hexToBin(T.charAt(0) + T.charAt(1) + "")) ^ 135;
+        T.replace(T.charAt(0) + T.charAt(1) + "", Integer.toHexString(temp3));
         String CC = Utility.binToHexAkhir(Utility.xorBesar(Utility.hexToBin(cipherBlok), Utility.hexToBin(T)));
         String PP = BackwardAES.dekripsi(CC, key1);
         plainBlok = Utility.binToHexAkhir(Utility.xorBesar(Utility.hexToBin(PP), Utility.hexToBin(T)));
