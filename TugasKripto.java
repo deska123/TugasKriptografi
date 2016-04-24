@@ -116,6 +116,7 @@ public class TugasKripto extends JFrame {
   
   class Enkrip implements ActionListener {
     public void actionPerformed(ActionEvent e){
+		//Peringatan kalau belum mengisi plain/ciphertext atau key
 		if(filePlain==null){
 			filenamePlain.setText("Isi plaintext terlebih dahulu");
 			dirPlain.setText("");
@@ -125,6 +126,7 @@ public class TugasKripto extends JFrame {
 			dirKey.setText("");
 		}
 		
+		//Bila sudah diisi, menjalankan untuk mengubah file menjadi hex
 		else{
 			try{
 				initialPlainAndKey();
@@ -136,6 +138,7 @@ public class TugasKripto extends JFrame {
   
   class Dekrip implements ActionListener {
     public void actionPerformed(ActionEvent e) {
+		//Peringatan kalau belum mengisi plain/ciphertext atau key
 		if(filePlain==null){
 			filenamePlain.setText("Isi plaintext terlebih dahulu");
 			dirPlain.setText("");
@@ -144,6 +147,8 @@ public class TugasKripto extends JFrame {
 			filenameKey.setText("Isi key terlebih dahulu");
 			dirKey.setText("");
 		}
+				
+		//Bila sudah diisi, menjalankan untuk mengubah file menjadi hex
 		else{
 			try{
 				//Output dari hasil enkrip akan masuk ke file, isi file tersebut adalah hex, tinggal langsung baca isi dari file 
@@ -163,15 +168,12 @@ public class TugasKripto extends JFrame {
   }
 
   public static void main(String[] args) throws FileNotFoundException {
-	String s = "65";
-	byte value = Byte.valueOf(s);
-	System.out.println(value);
     run(new TugasKripto(), 640, 140);
   }
   
   public void initialPlainAndKey() throws FileNotFoundException,IOException{
-		//Convert binary image file to String data
-            
+		//Agar dapat menerima berbagai jenis file, pada plaintext ini, isinya diubah terlebih dahulu ke string dengan basis 16
+		//Jadi bila berbentuk teks, maka bentuk hexnya tidak akan selalu sama dengan isi filenya		
 		FileInputStream textPlain = new FileInputStream(filePlain);
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
         byte[] b = new byte[1024];
@@ -180,8 +182,9 @@ public class TugasKripto extends JFrame {
            bos.write(b, 0, bytesRead);
         }
         byte[] ba = bos.toByteArray();
+		
+		//Ubah byte ke hex
         initialPlain = bytesToHex(ba);
-		//System.out.println(initialPlain);
 		textPlain.close();
 		
 		//Karena isi key-nya sudah langsung hex, maka tinggal langsung baca isi dari file
