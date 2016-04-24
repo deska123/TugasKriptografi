@@ -41,7 +41,7 @@ public class BackwardXTS_AES
             String cP = CC.substring(b, CC.length());
             String pP = cipherBlok[cipherBlok.length - 1] + cP;
             plainBlok[cipherBlok.length - 2] = dekripsiSatuBlok(tweak, pP, kunci);
-            plainBlok[cipherBlok.length - 2] = cM;
+            plainBlok[cipherBlok.length - 1] = cM;
         } else if(banyakBlok > 1){
             plainBlok[cipherBlok.length - 2] = dekripsiSatuBlok(tweak, cipherBlok[cipherBlok.length - 2], kunci);
             plainBlok[cipherBlok.length - 1] = dekripsiSatuBlok(tweak, cipherBlok[cipherBlok.length - 1], kunci);
