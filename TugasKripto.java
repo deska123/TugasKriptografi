@@ -160,7 +160,7 @@ public class TugasKripto extends JFrame {
 				initialKey = inKey.nextLine();
 				
 				//Mulai dekripsi
-				BackwardAES.dekripsi(initialCipher,initialKey);
+				System.out.println("Hasil Dekripsi : " +BackwardXTS_AES.dekripsiSatuUnit(initialCipher,initialKey));
 			}
 			catch(IOException ex){}
 		}
@@ -192,7 +192,7 @@ public class TugasKripto extends JFrame {
 		initialKey = inKey.nextLine();
 		
 		//Mulai enkripsi
-		ForwardAES.enkripsi(initialPlain,initialKey);
+		System.out.println("Hasil Enkripsi : " +ForwardXTS_AES.enkripsiSatuUnit(initialPlain,initialKey));
   }
   
 
