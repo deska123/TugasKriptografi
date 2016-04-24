@@ -41,7 +41,7 @@ public class ForwardXTS_AES
             String cP = CC.substring(b, CC.length());
             String pP = plainBlok[plainBlok.length - 1] + cP;
             cipherBlok[plainBlok.length - 2] = enkripsiSatuBlok(tweak, pP, kunci);
-            cipherBlok[plainBlok.length - 2] = cM;
+            cipherBlok[plainBlok.length - 1] = cM;
         } else if(banyakBlok > 1){
             cipherBlok[plainBlok.length - 2] = enkripsiSatuBlok(tweak, plainBlok[plainBlok.length - 2], kunci);
             cipherBlok[plainBlok.length - 1] = enkripsiSatuBlok(tweak, plainBlok[plainBlok.length - 1], kunci);
