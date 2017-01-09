@@ -5,7 +5,7 @@ Kontributor dari Tugas Pemrograman ini :
 - Rezky Pangestu Gunarso  - 1306464505
 - Dennis Pratama Kamah    - 1306464562
 
-Nomor Kelompok : 9, Kelas : CIS - B
+Nomor Kelompok : 9, Kelas : CIS(Cryptography and Information Security) - B
 
 * File Utility.java berisikan fungsi-fungsi seputar konversi bilangan maupun perhitungan matematis bilangan
 
