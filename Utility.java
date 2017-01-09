@@ -1,7 +1,7 @@
 public class Utility 
 {
     /*
-        Mengubah String ke suatu Array String Dua Dimensi(dua bit pada string berpasangan)
+        Mengubah String ke suatu Array String Dua Dimensi(dua bit pada string berpasangan)....
     */
     public static String[][] ubahKeArrayString(String teks)
     {
